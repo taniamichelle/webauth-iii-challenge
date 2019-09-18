@@ -48,4 +48,18 @@ function generateToken(user) {
     return jwt.sign(payload, secrets.jwtSecret, options);
 }
 
+router.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+                res.status(500).json({ error: "You can checkout any time you like, but you can never leave." });
+            } else {
+                res.status(200).json({ message: "Bye, thanks for playing!" });
+            }
+        })
+    } else {
+        res.status(200).json({ message: "You were never here to begin with..." });
+    }
+});
+
 module.exports = router;
